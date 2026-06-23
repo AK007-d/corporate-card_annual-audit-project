@@ -94,18 +94,23 @@ MySQL then runs 7 analytical queries across the flagged database — department 
 Real business questions this analysis is designed to answer — with findings drawn directly from the data.
 
 **Q1. Which department poses the highest fraud risk and what is driving it?**
+
 Field Sales carries $285K in total exposure — the highest of any department. The primary driver is blacklist MCC violations (gambling, liquor, adult entertainment), suggesting either deliberate misuse or inadequate cardholder policy awareness. A point-of-sale MCC hard block would eliminate this exposure entirely without requiring post-payment clawback.
 
 **Q2. Which violation type represents the most recoverable exposure with the least operational change?**
+
 FLAG_R4_LIMIT_BREACH represents $274K in exposure across just 60 transactions — the highest average exposure per transaction of any rule ($4,567 per breach). Recovery requires a single configuration change: enabling hard declines at the card issuer level for transactions exceeding tier-based limits. No process redesign or employee training needed — full prevention from one system change.
 
 **Q3. Are there employees appearing across multiple violation categories, and what does that signal?**
+
 The R5 reconciliation report surfaces 478 context-fail transactions with per-transaction reason strings identifying two distinct patterns — employees with no travel approval spending on weekends, and employees on approved travel spending outside hospitality MCCs. Employees appearing in both R2 (split) and R5 (context fail) categories represent the highest individual risk profile and should be prioritised for targeted audit.
 
 **Q4. Which regional office should be prioritised for an immediate compliance audit?**
+
 LATAM leads risk concentration across all flag types. The regional risk profile shows disproportionate exposure relative to transaction volume, with blacklist MCC violations (R1) and split transactions (R2) both concentrated in this region. An immediate audit of LATAM cardholder spend with tightened MCC restrictions is the highest-priority regional intervention.
 
 **Q5. If only two rules could be fixed this quarter, which two deliver maximum exposure recovery?**
+
 R4 (Limit Breach, $274K, full prevention via one config change) and R2 (Split Transactions, $185K, ~85% recovery via role-based spend tier increase for Software Engineering at whitelisted SaaS vendors). Combined addressable exposure: $459K — 63% of total exposure resolved with two targeted interventions, no process redesign required.
 
 ---
@@ -113,19 +118,19 @@ R4 (Limit Breach, $274K, full prevention via one config change) and R2 (Split Tr
 ## Recommendations
 
 **R1 — Implement MCC hard blocks at point of sale**
-160 transactions at blacklisted MCCs (7995, 5921, 7273) totalling $121K should be declined at the card issuer level — not flagged after payment. Moves enforcement upstream and eliminates the manual clawback process entirely.
+Decline blacklisted MCC transactions (7995, 5921, 7273) at the card issuer level at point of swipe, eliminating post-payment clawback entirely and recovering $121K in exposure.
 
 **R2 — Introduce role-based spend tiers for Software Engineering**
-Split transaction pattern in Software Engineering is a symptom of a misconfigured limit, not evasion intent. Raising the single-transaction ceiling to $5,000 for Engineering Leads at whitelisted SaaS vendors (MCC 4816) resolves the root cause and eliminates ~85% of R2 volume ($157K).
+Raise the single-transaction ceiling to $5,000 for Engineering Leads at whitelisted SaaS vendors (MCC 4816) to resolve the root cause of split transaction behaviour and eliminate ~85% of R2 volume ($157K).
 
 **R3 — Automate weekend pre-approval workflow**
-159 weekend hospitality transactions exceeded the $250 standard limit with no travel justification. Pre-weekend approval request (submitted before Saturday) shifts accountability upstream and creates an audit trail before spend occurs.
+Require employees to submit a business justification before Saturday for hospitality spend above $250, shifting accountability upstream and creating an audit trail before spend occurs.
 
 **R4 — Enforce hard declines for limit breaches**
-60 transactions exceeded tier-based limits ($3K or $5K) generating $274K in exposure. Card issuer should enforce hard declines at point of sale — current system flags post-payment, which is too late.
+Configure card issuer to enforce hard declines at point of sale for transactions exceeding tier-based limits ($3K or $5K), preventing $274K in unauthorised exposure at source.
 
 **R5 — Connect card authorisation to travel management system via API**
-478 context-fail transactions require dynamic authorisation logic. Integrating the card network with the HR travel system adjusts spend context in real time — on-travel employees get hospitality limits applied automatically; non-hospitality weekend spend triggers SMS confirmation regardless of travel status.
+Integrate the card network with the HR travel system to dynamically adjust spend context in real time — on-travel employees receive hospitality limits automatically; non-hospitality weekend spend triggers SMS confirmation.
 
 | Recommendation | Exposure Addressable | Expected Outcome |
 |---------------|---------------------|-----------------|
@@ -135,6 +140,8 @@ Split transaction pattern in Software Engineering is a symptom of a misconfigure
 | R4 Hard Decline Enforcement | $274,000 | Full prevention |
 | R5 Travel API Integration | $70,329 | Context-aware automation |
 | **Total addressable** | **$703,825** | **96% of total exposure** |
+
+> For detailed findings behind each recommendation: [Executive_QBR_Compliance_Report.md](Executive_QBR_Compliance_Report.md)
 
 ---
 
