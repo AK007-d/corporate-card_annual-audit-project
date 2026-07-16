@@ -54,7 +54,6 @@ ALL TRANSACTIONS (12,860)
 │               YES -> Amount > $250?  -> FLAG_R3_WEEKEND_OVERAGE
 │                                      -> FLAG_R5_CONTEXT_FAIL
 │               NO  -> Amount > limit? -> FLAG_R4_LIMIT_BREACH
-|                                      -> FLAG_R5_CONTEXT_FAIL
 │
 └── WEEKDAY + CLEAN -> Amount > card limit? -> FLAG_R4_LIMIT_BREACH
 ```
